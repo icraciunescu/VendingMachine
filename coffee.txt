@@ -1,0 +1,10 @@
+COFFEE
+RON
+0 iesire 0 0 0
+1 cafea 3 10 3
+2 ceai_ 2 10 3
+3 apa__ 1 10 3
+100 gata 0 0 0
+101 m1 1 10
+102 m2 5 10
+103 m3 10 10
