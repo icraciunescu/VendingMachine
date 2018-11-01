@@ -6,15 +6,12 @@ import java.util.*;
 
 public class VendingMachine {
 
-    int insertSum = 0;
-    int valProdus = 0;
-    int rest = 0;
-    int codMoneda;
-    int valoareMoneda;
-    int valMoneda1 = 1;
-    int valMoneda2 = 5;
-    int valMoneda3 = 10;
-    String produs;
+    private int insertSum = 0;
+    private int valProdus = 0;
+//    private int valMoneda1 = 1;
+//    private int valMoneda2 = 5;
+//    private int valMoneda3 = 10;
+    private String produs;
     private VMType vmType;
     private Currency currency;
     private LinkedHashMap<Product, Integer> productStock;
@@ -50,7 +47,7 @@ public class VendingMachine {
                 for (int j = i; j < lines.size(); j++) {
                     String line2 = lines.get( j );
                     String[] parts2 = line2.split( " " );
-                    Coin coin = new Coin( Integer.valueOf( parts2[0] ), parts2[1], Integer.valueOf( parts2[2] ) );
+                    Coin coin = new Coin( Integer.valueOf( parts2[0] ) % 100, parts2[1], Integer.valueOf( parts2[2] ) );
                     coinStock.put( coin, Integer.valueOf( parts2[3] ) );
                 }
             } else {
@@ -115,21 +112,19 @@ public class VendingMachine {
             Scanner scanner = new Scanner( System.in );
             int option = scanner.nextInt();
 
-            if (option == 100) {
+            if (option == 0) {
                 restCoin();
                 gata();
             }
 
             for (Coin c : coinStock.keySet()) {
                 if (c.getCodCoin() == option) {
-                    codMoneda = c.getCodCoin();
-                    valoareMoneda = c.getPriceCoin();
                     Integer value = coinStock.get( c );
                     coinStock.put( c, value + 1 );
                     insertSum = insertSum + c.getPriceCoin();
                     System.out.println( "valoare introdusa" + "\t" + insertSum + "\t" + currency );
                     System.out.println( "tastati codul monedei daca vreti sa mai adaugati bani !!!" );
-                    System.out.println( "tastati codul 100 daca nu mai adaugati bani !!!" );
+                    System.out.println( "tastati codul 0 daca nu mai adaugati bani !!!" );
                 }
             }
             System.out.println( coinStock.values() );
@@ -141,6 +136,10 @@ public class VendingMachine {
     }
 
     public void restCoin() {
+        int rest;
+        int valMoneda1 = 1;
+        int valMoneda2 = 5;
+        int valMoneda3 = 10;
         System.out.println( "ati achizitionat produsul: " + produs );
         rest = insertSum - valProdus;
         System.out.println( "rest: " + rest + currency );
@@ -149,13 +148,13 @@ public class VendingMachine {
             if (rest > valMoneda3) {
                 rest = rest - valMoneda3;
                 for (Coin coinRest3 : coinStock.keySet()) {
-                    if (coinRest3.getCodCoin() == 100 + 3) {
+                    if (coinRest3.getCodCoin() == 3) {
                         Integer valueRest3 = coinStock.get( coinRest3 );
                         coinStock.put( coinRest3, valueRest3 - 1 );
                         while (rest > 0) {
                             if (rest >= valMoneda2) {
                                 for (Coin coinRest2 : coinStock.keySet()) {
-                                    if (coinRest2.getCodCoin() == 100 + 2) {
+                                    if (coinRest2.getCodCoin() == 2) {
                                         Integer valueRest2 = coinStock.get( coinRest2 );
                                         coinStock.put( coinRest2, valueRest2 - 1 );
                                         rest = rest - valMoneda2;
@@ -163,7 +162,7 @@ public class VendingMachine {
                                 }
                             } else {
                                 for (Coin coinRest1 : coinStock.keySet()) {
-                                    if (coinRest1.getCodCoin() == 100 + 1) {
+                                    if (coinRest1.getCodCoin() == 1) {
                                         Integer valueRest1 = coinStock.get( coinRest1 );
                                         coinStock.put( coinRest1, valueRest1 - 1 );
                                         rest = rest - valMoneda1;
@@ -178,7 +177,7 @@ public class VendingMachine {
                 while (rest > 0) {
                     if (rest >= valMoneda2) {
                         for (Coin coinRest2 : coinStock.keySet()) {
-                            if (coinRest2.getCodCoin() == 100 + 2) {
+                            if (coinRest2.getCodCoin() == 2) {
                                 Integer valueRest2 = coinStock.get( coinRest2 );
                                 coinStock.put( coinRest2, valueRest2 - 1 );
                                 rest = rest - valMoneda2;
@@ -186,7 +185,7 @@ public class VendingMachine {
                         }
                     } else {
                         for (Coin coinRest1 : coinStock.keySet()) {
-                            if (coinRest1.getCodCoin() == 100 + 1) {
+                            if (coinRest1.getCodCoin() == 1) {
                                 Integer valueRest1 = coinStock.get( coinRest1 );
                                 coinStock.put( coinRest1, valueRest1 - 1 );
                                 rest = rest - valMoneda1;
